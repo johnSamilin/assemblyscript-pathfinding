@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "build:untouched": "asc ./node_modules/as-bind/lib/assembly/as-bind.ts -b build/as-pathfinding.wasm -t build/as-pathfinding.wat --sourceMap --debug --runtime stub",
-    "build:optimized": "asc ./node_modules/as-bind/lib/assembly/as-bind.ts assembly/index.ts -b build/as-pathfinding.wasm -t build/as-pathfinding.wat --sourceMap --optimize --runtime stub",
+    "build:untouched": "asc ./node_modules/as-bind/lib/assembly/as-bind.ts -b ../build/as-pathfinding-debug.wasm -t ../build/as-pathfinding-debug.wat --sourceMap --debug --runtime stub",
+    "build:optimized": "asc ./node_modules/as-bind/lib/assembly/as-bind.ts assembly/index.ts -b ../build/as-pathfinding.wasm -t ../build/as-pathfinding.wat --sourceMap --optimize --runtime stub",
     "build": "yarn build:untouched && yarn build:optimized"
   },
   "dependencies": {
