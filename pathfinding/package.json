@@ -1,9 +1,8 @@
 {
   "scripts": {
-    "build:untouched": "asc ./node_modules/as-bind/lib/assembly/as-bind.ts -b build/as-pathfinding.wasm -t build/as-pathfinding.wat --sourceMap --debug --runtime stub && yarn cp",
-    "build:optimized": "asc ./node_modules/as-bind/lib/assembly/as-bind.ts assembly/index.ts -b build/as-pathfinding.wasm -t build/as-pathfinding.wat --sourceMap --optimize --runtime stub && yarn cp",
-    "build": "yarn build:untouched && yarn build:optimized",
-    "cp": "yarn copy ./build/as-pathfinding.wasm ../../public"
+    "build:untouched": "asc ./node_modules/as-bind/lib/assembly/as-bind.ts -b build/as-pathfinding.wasm -t build/as-pathfinding.wat --sourceMap --debug --runtime stub",
+    "build:optimized": "asc ./node_modules/as-bind/lib/assembly/as-bind.ts assembly/index.ts -b build/as-pathfinding.wasm -t build/as-pathfinding.wat --sourceMap --optimize --runtime stub",
+    "build": "yarn build:untouched && yarn build:optimized"
   },
   "dependencies": {
     "@assemblyscript/loader": "^0.13.2",
