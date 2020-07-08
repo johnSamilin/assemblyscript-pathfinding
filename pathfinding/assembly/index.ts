@@ -102,8 +102,8 @@ function heuristic(from: Point, to: Point): f32 {
 }
 
 export function findPath(grid: Int8Array, ax: i8, ay: i8, bx: i8, by: i8): Int8Array {
-  const start: Point = { x: ay, y: ax };
-  const goal: Point = { x: by, y: bx };
+  const start: Point = { x: ax, y: ay };
+  const goal: Point = { x: bx, y: by };
 
   const frontier = new ProrityQueue();
   const cameFrom = new Map<Point, Point | null>();

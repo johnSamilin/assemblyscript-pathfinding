@@ -2280,14 +2280,14 @@
   local.set $5
   call $assembly/index/Point#constructor
   local.tee $6
-  local.get $2
+  local.get $1
   i32.const 24
   i32.shl
   i32.const 24
   i32.shr_s
   i32.store
   local.get $6
-  local.get $1
+  local.get $2
   i32.const 24
   i32.shl
   i32.const 24
@@ -2295,14 +2295,14 @@
   i32.store offset=4
   call $assembly/index/Point#constructor
   local.tee $2
-  local.get $4
+  local.get $3
   i32.const 24
   i32.shl
   i32.const 24
   i32.shr_s
   i32.store
   local.get $2
-  local.get $3
+  local.get $4
   i32.const 24
   i32.shl
   i32.const 24
