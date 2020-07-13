@@ -12,19 +12,18 @@ class ProrityQueue {
     this.highestPriority = 0;
   }
 
+  @inline
   push(data: Point, priority: f32): void {
-    if (!this.q.has(priority)) {
-      this.q.set(priority, [data]);
+    let q = this.q;
+    if (!q.has(priority)) {
+      q.set(priority, [data]);
     } else {
-      const newData = this.q.get(priority) || [];
-      newData.push(data);
-      this.q.set(priority, newData);
+      q.get(priority).push(data);
     }
-    if (priority > this.highestPriority) {
-      this.highestPriority = priority;
-    }
+    this.highestPriority = Mathf.max(this.highestPriority, priority);
   }
 
+  @inline
   pop(): Point {
     const data = this.q.get(this.highestPriority) || [];
     const pt = data.pop();
@@ -32,10 +31,9 @@ class ProrityQueue {
       this.q.delete(this.highestPriority);
       const priorities = this.q.keys();
       let max: f32 = 0;
-      for (let i = 0; i < priorities.length; i++) {
-        if (priorities[i] > max) {
-          max = priorities[i];
-        }
+      for (let i = 0, len = priorities.length; i < len; i++) {
+        let property = unchecked(priorities[i]);
+        if (property > max) max = property;
       }
       this.highestPriority = max;
     } else {
@@ -44,45 +42,47 @@ class ProrityQueue {
     return pt;
   }
 
+  @inline
   isEmpty(): boolean {
     return this.q.size === 0;
   }
 }
 
-function findPointInArray(array: Array<Point>, needle: Point): boolean {
-  for (let i = 0; i < array.length; i++) {
-      if (array[i].x === needle.x && array[i].y === needle.y) {
-        return true;
-      }
+@inline
+function findPointInArray(array: Array<Point>, nx: i32, ny: i32): boolean {
+  for (let i = 0, len = array.length; i < len; i++) {
+    let pt = unchecked(array[i]);
+    if (pt.x == nx && pt.y == ny) {
+      return true;
+    }
   }
-
   return false;
 }
 
 function neighbors(p: Point, visited: Map<Point, Point | null>, grid: Int8Array): Array<Point> {
-  const maxX = grid[0];
-  const maxY = grid[1];
+  const maxX = unchecked(grid[0]);
+  const maxY = unchecked(grid[1]);
   const result: Array<Point> = [];
+  let px = p.x;
+  let py = p.y;
   const visitedCells: Array<Point> = visited.keys();
   for (let i = 1; i >= -1; i--) {
     for (let j = 1; j >= -1; j--) {
-      const candidate: Point = { x: p.x - i, y: p.y - j };
-      if (candidate.x === p.x && candidate.y === p.y) {
+      let cx = px - i;
+      let cy = py - j;
+      if (cx === px && cy === py) {
         continue;
       }
-      if (candidate.x < 0 || candidate.x >= maxX) {
+      if (cx < 0 || cy < 0 || cx >= maxX || cy >= maxY) {
         continue;
       }
-      if (candidate.y < 0 || candidate.y >= maxY) {
+      if (findPointInArray(visitedCells, cx, cy)) {
         continue;
       }
-      if (findPointInArray(visitedCells, candidate)) {
+      if (unchecked(grid[2 + (cx * maxX + cy)]) !== 0) {
         continue;
       }
-      if (grid[2 + (candidate.x * maxX + candidate.y)] !== 0) {
-        continue;
-      }
-      result.push(candidate);
+      result.push({ x: cx, y: cy });
     }
   }
 
@@ -93,17 +93,19 @@ function getCost(from: Point, to: Point): i32 {
   return 1;
 }
 
-function heuristic(from: Point, to: Point): f32 {
+@inline
+function heuristic(fromX: i32, fromY: i32, toX: i32, toY: i32): f32 {
   // octile
-  var F = Math.SQRT2 - 1;
-  const dx = Math.abs(from.x - to.x);
-  const dy = Math.abs(from.y - to.y);
+  const F = Math.SQRT2 - 1;
+  const dx = Math.abs(fromX - toX);
+  const dy = Math.abs(fromY - toY);
   return 1 / ((dx < dy) ? F * dx + dy : F * dy + dx) as f32;
 }
 
 export function findPath(grid: Int8Array, ax: i8, ay: i8, bx: i8, by: i8): Int8Array {
   const start: Point = { x: ax, y: ay };
-  const goal: Point = { x: bx, y: by };
+  const goalX: i32 = bx;
+  const goalY: i32 = by;
 
   const frontier = new ProrityQueue();
   const cameFrom = new Map<Point, Point | null>();
@@ -113,40 +115,41 @@ export function findPath(grid: Int8Array, ax: i8, ay: i8, bx: i8, by: i8): Int8A
   costSoFar.set(start, 0);
 
   while (!frontier.isEmpty()) {
-    const current: Point = frontier.pop();
+    const current = frontier.pop();
     // @ts-ignore
     if (!current) {
       break;
     }
 
-    if (current.x === goal.x && current.y === goal.y) {
+    if (current.x === goalX && current.y === goalY) {
       let step = cameFrom.get(current);
-      const path: Array<Array<i32>> = [[current.x, current.y]];
+      const path = new Array<Point>();
       while (step !== null) {
-        path.unshift([step.x, step.y]);
+        path.push(step);
         step = cameFrom.get(step);
       }
-      const result = new Int8Array(path.length * 2);
+      path.push(current);
+      const len = path.length;
+      const result = new Int8Array(len * 2);
       let j = 0;
-      for (let i = 0; i < path.length; i++) {
-        const x: i32 = path[i][0];
-        const y: i32 = path[i][1];
-        result[j] = x;
-        result[j + 1] = y;
+      for (let i = len - 1; i >= 0; --i) {
+        let p = unchecked(path[i]);
+        let x = p.x as i8;
+        let y = p.y as i8;
+        unchecked(result[j + 0] = x);
+        unchecked(result[j + 1] = y);
         j += 2;
       }
       return result;
     }
 
     const nbrs = neighbors(current, cameFrom, grid);
-    for (let i = 0; i < nbrs.length; i++) {
-      const next: Point = nbrs[i];
-      // @ts-ignore
-      const newCost: i32 = costSoFar.get(current) + getCost(current, next);
-      // @ts-ignore
+    for (let i = 0, len = nbrs.length; i < len; i++) {
+      const next = unchecked(nbrs[i]);
+      const newCost = costSoFar.get(current) + getCost(current, next);
       if (!costSoFar.has(next) || costSoFar.get(next) >= newCost) {
         costSoFar.set(next, newCost);
-        const priority = newCost as f32 + heuristic(goal, next);
+        const priority = newCost as f32 + heuristic(goalX, goalY, next.x, next.y);
         frontier.push(next, priority);
         cameFrom.set(next, current);
       }
