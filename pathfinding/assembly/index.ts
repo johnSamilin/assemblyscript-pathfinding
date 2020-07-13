@@ -135,10 +135,8 @@ export function findPath(grid: Int8Array, ax: i8, ay: i8, bx: i8, by: i8): Int8A
       let j = 0;
       for (let i = len - 1; i >= 0; --i) {
         let p = unchecked(path[i]);
-        let x = p.x as i8;
-        let y = p.y as i8;
-        unchecked(result[j + 0] = x);
-        unchecked(result[j + 1] = y);
+        unchecked(result[j + 0] = p.x as i8);
+        unchecked(result[j + 1] = p.y as i8);
         j += 2;
       }
       return result;
