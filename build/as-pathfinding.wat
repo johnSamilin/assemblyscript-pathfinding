@@ -3045,9 +3045,8 @@
   (local $12 i32)
   (local $13 i32)
   (local $14 i32)
-  (local $15 i32)
+  (local $15 f64)
   (local $16 f64)
-  (local $17 f64)
   local.get $0
   local.set $6
   i32.const 8
@@ -3078,13 +3077,13 @@
   i32.shl
   i32.const 24
   i32.shr_s
-  local.set $13
+  local.set $12
   local.get $4
   i32.const 24
   i32.shl
   i32.const 24
   i32.shr_s
-  local.set $14
+  local.set $13
   i32.const 8
   i32.const 12
   call $~lib/rt/stub/__alloc
@@ -3218,6 +3217,7 @@
     block $while-break|0
      local.get $2
      i32.load
+     local.tee $8
      local.get $2
      f32.load offset=4
      call $~lib/map/Map<f32,~lib/array/Array<assembly/index/Point>>#get
@@ -3259,15 +3259,13 @@
      local.get $1
      i32.load offset=12
      if
-      local.get $2
-      i32.load
+      local.get $8
       local.get $2
       f32.load offset=4
       local.get $1
       call $~lib/map/Map<f32,~lib/array/Array<assembly/index/Point>>#set
      else
-      local.get $2
-      i32.load
+      local.get $8
       local.get $2
       f32.load offset=4
       call $~lib/map/Map<f32,~lib/array/Array<assembly/index/Point>>#delete
@@ -3275,8 +3273,7 @@
       local.set $10
       i32.const 0
       local.set $1
-      local.get $2
-      i32.load
+      local.get $8
       call $~lib/map/Map<f32,~lib/array/Array<assembly/index/Point>>#keys
       local.tee $8
       i32.load offset=12
@@ -3317,14 +3314,14 @@
      local.get $5
      i32.load offset=4
      local.set $8
-     local.get $13
+     local.get $12
      local.get $5
      i32.load
      local.tee $0
      i32.eq
      if (result i32)
       local.get $8
-      local.get $14
+      local.get $13
       i32.eq
      else
       i32.const 0
@@ -3336,11 +3333,11 @@
       local.set $0
       i32.const 0
       call $~lib/array/Array<assembly/index/Point>#constructor
-      local.set $3
+      local.set $6
       loop $while-continue|2
        local.get $0
        if
-        local.get $3
+        local.get $6
         local.get $0
         call $~lib/array/Array<assembly/index/Point>#push
         local.get $4
@@ -3350,16 +3347,18 @@
         br $while-continue|2
        end
       end
-      local.get $3
+      local.get $6
       local.get $5
       call $~lib/array/Array<assembly/index/Point>#push
-      local.get $3
+      local.get $6
       i32.load offset=12
       local.tee $0
       i32.const 1
       i32.shl
       call $~lib/typedarray/Int8Array#constructor
-      local.set $2
+      local.set $3
+      i32.const 0
+      local.set $1
       local.get $0
       i32.const 1
       i32.sub
@@ -3369,33 +3368,33 @@
        i32.const 0
        i32.ge_s
        if
-        local.get $12
-        local.get $2
+        local.get $1
+        local.get $3
         i32.load offset=4
         i32.add
-        local.get $3
+        local.get $6
         i32.load offset=4
         local.get $0
         i32.const 2
         i32.shl
         i32.add
         i32.load
-        local.tee $1
+        local.tee $2
         i32.load
         i32.store8
-        local.get $2
+        local.get $3
         i32.load offset=4
-        local.get $12
+        local.get $1
         i32.const 1
         i32.add
         i32.add
-        local.get $1
+        local.get $2
         i32.load offset=4
         i32.store8
-        local.get $12
+        local.get $1
         i32.const 2
         i32.add
-        local.set $12
+        local.set $1
         local.get $0
         i32.const 1
         i32.sub
@@ -3403,7 +3402,7 @@
         br $for-loop|3
        end
       end
-      local.get $2
+      local.get $3
       return
      end
      i32.const 0
@@ -3483,36 +3482,36 @@
         call $~lib/map/Map<assembly/index/Point,i32>#set
         local.get $2
         i32.load
-        local.tee $15
+        local.tee $14
         local.get $0
         f32.convert_i32_s
         f64.const 1
-        local.get $13
+        local.get $12
         local.get $7
         i32.load
         i32.sub
         f64.convert_i32_s
         f64.abs
-        local.tee $16
-        local.get $14
+        local.tee $15
+        local.get $13
         local.get $7
         i32.load offset=4
         i32.sub
         f64.convert_i32_s
         f64.abs
-        local.tee $17
+        local.tee $16
         f64.lt
         if (result f64)
          f64.const 0.41421356237309515
-         local.get $16
+         local.get $15
          f64.mul
-         local.get $17
+         local.get $16
          f64.add
         else
          f64.const 0.41421356237309515
-         local.get $17
-         f64.mul
          local.get $16
+         f64.mul
+         local.get $15
          f64.add
         end
         f64.div
@@ -3521,7 +3520,7 @@
         local.tee $9
         call $~lib/map/Map<f32,~lib/array/Array<assembly/index/Point>>#has
         if
-         local.get $15
+         local.get $14
          local.get $9
          call $~lib/map/Map<f32,~lib/array/Array<assembly/index/Point>>#get
          local.get $7
@@ -3534,7 +3533,7 @@
          i32.load offset=4
          local.get $7
          i32.store
-         local.get $15
+         local.get $14
          local.get $9
          local.get $0
          call $~lib/map/Map<f32,~lib/array/Array<assembly/index/Point>>#set

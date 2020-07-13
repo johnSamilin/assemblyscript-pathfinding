@@ -4602,14 +4602,17 @@
      local.set $17
      local.get $17
      i32.load
+     call $~lib/rt/stub/__retain
+     local.set $15
+     local.get $15
      local.get $17
      f32.load offset=4
      call $~lib/map/Map<f32,~lib/array/Array<assembly/index/Point>>#get
-     local.tee $14
+     local.tee $13
      if (result i32)
-      local.get $14
+      local.get $13
      else
-      local.get $14
+      local.get $13
       call $~lib/rt/stub/__release
       i32.const 0
       i32.const 2
@@ -4618,41 +4621,39 @@
       call $~lib/rt/__allocArray
       call $~lib/rt/stub/__retain
      end
-     local.set $14
-     local.get $14
+     local.set $13
+     local.get $13
      call $~lib/array/Array<assembly/index/Point>#pop
-     local.set $15
-     local.get $14
+     local.set $14
+     local.get $13
      call $~lib/array/Array<assembly/index/Point>#get:length
      i32.const 0
      i32.eq
      if
-      local.get $17
-      i32.load
+      local.get $15
       local.get $17
       f32.load offset=4
       call $~lib/map/Map<f32,~lib/array/Array<assembly/index/Point>>#delete
       drop
-      local.get $17
-      i32.load
-      call $~lib/map/Map<f32,~lib/array/Array<assembly/index/Point>>#keys
-      local.set $13
       f32.const 0
       local.set $12
-      i32.const 0
+      local.get $15
+      call $~lib/map/Map<f32,~lib/array/Array<assembly/index/Point>>#keys
       local.set $20
-      local.get $13
-      call $~lib/array/Array<f32>#get:length
+      i32.const 0
       local.set $21
+      local.get $20
+      call $~lib/array/Array<f32>#get:length
+      local.set $22
       loop $for-loop|1
-       local.get $20
        local.get $21
-       i32.lt_s
-       local.set $22
        local.get $22
+       i32.lt_s
+       local.set $23
+       local.get $23
        if
-        local.get $13
         local.get $20
+        local.get $21
         call $~lib/array/Array<f32>#__uget
         local.set $19
         local.get $19
@@ -4662,51 +4663,52 @@
          local.get $19
          local.set $12
         end
-        local.get $20
+        local.get $21
         i32.const 1
         i32.add
-        local.set $20
+        local.set $21
         br $for-loop|1
        end
       end
       local.get $17
       local.get $12
       f32.store offset=4
-      local.get $13
+      local.get $20
       call $~lib/rt/stub/__release
      else
-      local.get $17
-      i32.load
+      local.get $15
       local.get $17
       f32.load offset=4
-      local.get $14
+      local.get $13
       call $~lib/map/Map<f32,~lib/array/Array<assembly/index/Point>>#set
       call $~lib/rt/stub/__release
      end
-     local.get $15
-     local.set $13
      local.get $14
+     local.set $20
+     local.get $15
      call $~lib/rt/stub/__release
      local.get $13
-     local.set $15
-     local.get $15
+     call $~lib/rt/stub/__release
+     local.get $20
+     local.set $14
+     local.get $14
      i32.eqz
      if
-      local.get $15
+      local.get $14
       call $~lib/rt/stub/__release
       br $while-break|0
      end
-     local.get $15
-     i32.load
-     local.set $14
-     local.get $15
-     i32.load offset=4
-     local.set $17
      local.get $14
+     i32.load
+     local.set $13
+     local.get $14
+     i32.load offset=4
+     local.set $15
+     local.get $13
      local.get $7
      i32.eq
      if (result i32)
-      local.get $17
+      local.get $15
       local.get $8
       i32.eq
      else
@@ -4714,51 +4716,51 @@
      end
      if
       local.get $10
-      local.get $15
+      local.get $14
       call $~lib/map/Map<assembly/index/Point,assembly/index/Point | null>#get
-      local.set $13
+      local.set $17
       i32.const 0
       i32.const 0
       call $~lib/array/Array<assembly/index/Point>#constructor
-      local.set $21
+      local.set $20
       loop $while-continue|2
-       local.get $13
+       local.get $17
        i32.const 0
        i32.ne
-       local.set $20
-       local.get $20
+       local.set $22
+       local.get $22
        if
-        local.get $21
-        local.get $13
+        local.get $20
+        local.get $17
         call $~lib/array/Array<assembly/index/Point>#push
         drop
         local.get $10
-        local.get $13
+        local.get $17
         call $~lib/map/Map<assembly/index/Point,assembly/index/Point | null>#get
-        local.set $22
-        local.get $13
+        local.set $23
+        local.get $17
         call $~lib/rt/stub/__release
-        local.get $22
-        local.set $13
+        local.get $23
+        local.set $17
         br $while-continue|2
        end
       end
-      local.get $21
-      local.get $15
+      local.get $20
+      local.get $14
       call $~lib/array/Array<assembly/index/Point>#push
       drop
-      local.get $21
-      call $~lib/array/Array<assembly/index/Point>#get:length
-      local.set $20
-      i32.const 0
       local.get $20
+      call $~lib/array/Array<assembly/index/Point>#get:length
+      local.set $22
+      i32.const 0
+      local.get $22
       i32.const 2
       i32.mul
       call $~lib/typedarray/Int8Array#constructor
-      local.set $22
-      i32.const 0
       local.set $23
-      local.get $20
+      i32.const 0
+      local.set $21
+      local.get $22
       i32.const 1
       i32.sub
       local.set $24
@@ -4769,14 +4771,14 @@
        local.set $25
        local.get $25
        if
-        local.get $21
+        local.get $20
         local.get $24
         call $~lib/array/Array<assembly/index/Point>#__uget
         local.tee $26
         call $~lib/rt/stub/__retain
         local.set $27
-        local.get $22
         local.get $23
+        local.get $21
         i32.const 0
         i32.add
         local.get $27
@@ -4786,8 +4788,8 @@
         i32.const 24
         i32.shr_s
         call $~lib/typedarray/Int8Array#__uset
-        local.get $22
         local.get $23
+        local.get $21
         i32.const 1
         i32.add
         local.get $27
@@ -4797,10 +4799,10 @@
         i32.const 24
         i32.shr_s
         call $~lib/typedarray/Int8Array#__uset
-        local.get $23
+        local.get $21
         i32.const 2
         i32.add
-        local.set $23
+        local.set $21
         local.get $26
         call $~lib/rt/stub/__release
         local.get $27
@@ -4812,11 +4814,11 @@
         br $for-loop|3
        end
       end
-      local.get $22
+      local.get $23
       local.set $24
-      local.get $13
+      local.get $17
       call $~lib/rt/stub/__release
-      local.get $21
+      local.get $20
       call $~lib/rt/stub/__release
       local.get $0
       call $~lib/rt/stub/__release
@@ -4830,39 +4832,39 @@
       call $~lib/rt/stub/__release
       local.get $11
       call $~lib/rt/stub/__release
-      local.get $15
+      local.get $14
       call $~lib/rt/stub/__release
       local.get $24
       return
      end
-     local.get $14
-     local.get $17
+     local.get $13
+     local.get $15
      local.get $10
      local.get $0
      call $assembly/index/neighbors
-     local.set $23
+     local.set $21
      i32.const 0
-     local.set $22
-     local.get $23
+     local.set $23
+     local.get $21
      call $~lib/array/Array<assembly/index/Point>#get:length
-     local.set $20
+     local.set $22
      loop $for-loop|4
+      local.get $23
       local.get $22
-      local.get $20
       i32.lt_s
-      local.set $21
-      local.get $21
+      local.set $20
+      local.get $20
       if
+       local.get $21
        local.get $23
-       local.get $22
        call $~lib/array/Array<assembly/index/Point>#__uget
-       local.tee $13
+       local.tee $17
        call $~lib/rt/stub/__retain
        local.set $24
        local.get $11
-       local.get $15
+       local.get $14
        call $~lib/map/Map<assembly/index/Point,i32>#get
-       local.get $15
+       local.get $14
        local.get $24
        call $assembly/index/getCost
        i32.add
@@ -5001,24 +5003,24 @@
         call $~lib/rt/stub/__release
         local.get $10
         local.get $24
-        local.get $15
+        local.get $14
         call $~lib/map/Map<assembly/index/Point,assembly/index/Point | null>#set
         call $~lib/rt/stub/__release
        end
-       local.get $13
+       local.get $17
        call $~lib/rt/stub/__release
        local.get $24
        call $~lib/rt/stub/__release
-       local.get $22
+       local.get $23
        i32.const 1
        i32.add
-       local.set $22
+       local.set $23
        br $for-loop|4
       end
      end
-     local.get $15
+     local.get $14
      call $~lib/rt/stub/__release
-     local.get $23
+     local.get $21
      call $~lib/rt/stub/__release
      br $while-continue|0
     end

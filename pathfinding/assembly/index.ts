@@ -14,7 +14,7 @@ class ProrityQueue {
 
   @inline
   push(data: Point, priority: f32): void {
-    let q = this.q;
+    const q = this.q;
     if (!q.has(priority)) {
       q.set(priority, [data]);
     } else {
@@ -25,19 +25,20 @@ class ProrityQueue {
 
   @inline
   pop(): Point {
-    const data = this.q.get(this.highestPriority) || [];
+    const q = this.q;
+    const data = q.get(this.highestPriority) || [];
     const pt = data.pop();
     if (data.length === 0) {
-      this.q.delete(this.highestPriority);
-      const priorities = this.q.keys();
+      q.delete(this.highestPriority);
       let max: f32 = 0;
+      const priorities = q.keys();
       for (let i = 0, len = priorities.length; i < len; i++) {
         let property = unchecked(priorities[i]);
         if (property > max) max = property;
       }
       this.highestPriority = max;
     } else {
-      this.q.set(this.highestPriority, data);
+      q.set(this.highestPriority, data);
     }
     return pt;
   }
@@ -51,7 +52,7 @@ class ProrityQueue {
 @inline
 function findPointInArray(array: Array<Point>, nx: i32, ny: i32): boolean {
   for (let i = 0, len = array.length; i < len; i++) {
-    let pt = unchecked(array[i]);
+    const pt = unchecked(array[i]);
     if (pt.x == nx && pt.y == ny) {
       return true;
     }
