@@ -1,15 +1,15 @@
 {
   "scripts": {
     "build:untouched": "asc ./node_modules/as-bind/lib/assembly/as-bind.ts -b ../build/as-pathfinding-debug.wasm -t ../build/as-pathfinding-debug.wat --sourceMap --debug --runtime stub",
-    "build:optimized": "asc ./node_modules/as-bind/lib/assembly/as-bind.ts assembly/index.ts -b ../build/as-pathfinding.wasm -t ../build/as-pathfinding.wat --sourceMap --optimize --runtime stub",
+    "build:optimized": "asc ./node_modules/as-bind/lib/assembly/as-bind.ts assembly/index.ts -b ../build/as-pathfinding.wasm -t ../build/as-pathfinding.wat --sourceMap -O3 --noAssert --runtime stub",
     "build": "yarn build:untouched && yarn build:optimized"
   },
   "dependencies": {
-    "@assemblyscript/loader": "^0.13.2",
+    "@assemblyscript/loader": "^0.13.6",
     "as-bind": "^0.3.4",
     "copy": "^0.3.2"
   },
   "devDependencies": {
-    "assemblyscript": "^0.13.2"
+    "assemblyscript": "^0.13.6"
   }
 }
