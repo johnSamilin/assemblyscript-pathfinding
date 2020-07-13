@@ -59,12 +59,10 @@ function findPointInArray(array: Array<Point>, nx: i32, ny: i32): boolean {
   return false;
 }
 
-function neighbors(p: Point, visited: Map<Point, Point | null>, grid: Int8Array): Array<Point> {
+function neighbors(px: i32, py: i32, visited: Map<Point, Point | null>, grid: Int8Array): Array<Point> {
   const maxX = unchecked(grid[0]);
   const maxY = unchecked(grid[1]);
   const result: Array<Point> = [];
-  let px = p.x;
-  let py = p.y;
   const visitedCells: Array<Point> = visited.keys();
   for (let i = 1; i >= -1; i--) {
     for (let j = 1; j >= -1; j--) {
@@ -121,7 +119,10 @@ export function findPath(grid: Int8Array, ax: i8, ay: i8, bx: i8, by: i8): Int8A
       break;
     }
 
-    if (current.x === goalX && current.y === goalY) {
+    let curX = current.x;
+    let curY = current.y;
+
+    if (curX === goalX && curY === goalY) {
       let step = cameFrom.get(current);
       const path = new Array<Point>();
       while (step !== null) {
@@ -143,7 +144,7 @@ export function findPath(grid: Int8Array, ax: i8, ay: i8, bx: i8, by: i8): Int8A
       return result;
     }
 
-    const nbrs = neighbors(current, cameFrom, grid);
+    const nbrs = neighbors(curX, curY, cameFrom, grid);
     for (let i = 0, len = nbrs.length; i < len; i++) {
       const next = unchecked(nbrs[i]);
       const newCost = costSoFar.get(current) + getCost(current, next);

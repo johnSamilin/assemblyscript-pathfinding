@@ -4,12 +4,13 @@
  (type $i32_i32_i32_=>_none (func (param i32 i32 i32)))
  (type $i32_i32_=>_i32 (func (param i32 i32) (result i32)))
  (type $none_=>_none (func))
- (type $i32_i32_i32_=>_i32 (func (param i32 i32 i32) (result i32)))
  (type $i32_f32_=>_i32 (func (param i32 f32) (result i32)))
  (type $i32_=>_none (func (param i32)))
  (type $i32_i32_i32_i32_=>_none (func (param i32 i32 i32 i32)))
  (type $i32_f32_=>_none (func (param i32 f32)))
  (type $i32_f32_i32_=>_none (func (param i32 f32 i32)))
+ (type $i32_i32_i32_=>_i32 (func (param i32 i32 i32) (result i32)))
+ (type $i32_i32_i32_i32_=>_i32 (func (param i32 i32 i32 i32) (result i32)))
  (type $i32_i32_i32_i32_i32_=>_i32 (func (param i32 i32 i32 i32 i32) (result i32)))
  (type $i32_f32_i32_=>_i32 (func (param i32 f32 i32) (result i32)))
  (import "env" "abort" (func $~lib/builtins/abort (param i32 i32 i32 i32)))
@@ -2865,8 +2866,7 @@
   i32.store offset=12
   local.get $0
  )
- (func $assembly/index/neighbors (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
-  (local $3 i32)
+ (func $assembly/index/neighbors (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (result i32)
   (local $4 i32)
   (local $5 i32)
   (local $6 i32)
@@ -2877,73 +2877,67 @@
   (local $11 i32)
   (local $12 i32)
   (local $13 i32)
-  local.get $2
+  local.get $3
   i32.load offset=4
   i32.load8_s
-  local.set $6
-  local.get $2
+  local.set $9
+  local.get $3
   i32.load offset=4
   i32.load8_s offset=1
-  local.set $11
+  local.set $12
   i32.const 0
   i32.const 1440
   call $~lib/rt/__allocArray
-  local.set $7
-  local.get $0
-  i32.load
-  local.set $8
-  local.get $0
-  i32.load offset=4
-  local.set $9
-  local.get $1
-  call $~lib/map/Map<assembly/index/Point,assembly/index/Point | null>#keys
   local.set $10
+  local.get $2
+  call $~lib/map/Map<assembly/index/Point,assembly/index/Point | null>#keys
+  local.set $11
   i32.const 1
-  local.set $4
+  local.set $6
   loop $for-loop|0
-   local.get $4
+   local.get $6
    i32.const -1
    i32.ge_s
    if
     i32.const 1
-    local.set $5
+    local.set $7
     loop $for-loop|1
-     local.get $5
+     local.get $7
      i32.const -1
      i32.ge_s
      if
-      local.get $9
-      local.get $5
+      local.get $1
+      local.get $7
       i32.sub
-      local.set $1
+      local.set $5
       block $for-continue|1
-       local.get $8
-       local.get $8
-       local.get $4
+       local.get $0
+       local.get $0
+       local.get $6
        i32.sub
-       local.tee $0
+       local.tee $2
        i32.eq
        if (result i32)
         local.get $1
-        local.get $9
+        local.get $5
         i32.eq
        else
         i32.const 0
        end
        br_if $for-continue|1
        i32.const 1
-       local.get $1
-       local.get $11
+       local.get $5
+       local.get $12
        i32.ge_s
        i32.const 1
-       local.get $0
-       local.get $6
+       local.get $2
+       local.get $9
        i32.ge_s
        i32.const 1
-       local.get $1
+       local.get $5
        i32.const 0
        i32.lt_s
-       local.get $0
+       local.get $2
        i32.const 0
        i32.lt_s
        select
@@ -2952,30 +2946,30 @@
        br_if $for-continue|1
        block $assembly/index/findPointInArray|inlined.0 (result i32)
         i32.const 0
-        local.set $3
-        local.get $10
+        local.set $8
+        local.get $11
         i32.load offset=12
-        local.set $12
+        local.set $13
         loop $for-loop|2
-         local.get $3
-         local.get $12
+         local.get $8
+         local.get $13
          i32.lt_s
          if
           i32.const 1
-          local.get $0
-          local.get $10
+          local.get $2
+          local.get $11
           i32.load offset=4
-          local.get $3
+          local.get $8
           i32.const 2
           i32.shl
           i32.add
           i32.load
-          local.tee $13
+          local.tee $4
           i32.load
           i32.eq
           if (result i32)
-           local.get $1
-           local.get $13
+           local.get $5
+           local.get $4
            i32.load offset=4
            i32.eq
           else
@@ -2983,21 +2977,21 @@
           end
           br_if $assembly/index/findPointInArray|inlined.0
           drop
-          local.get $3
+          local.get $8
           i32.const 1
           i32.add
-          local.set $3
+          local.set $8
           br $for-loop|2
          end
         end
         i32.const 0
        end
        br_if $for-continue|1
-       local.get $2
+       local.get $3
        i32.load offset=4
-       local.get $1
-       local.get $0
-       local.get $6
+       local.get $5
+       local.get $2
+       local.get $9
        i32.mul
        i32.add
        i32.const 2
@@ -3008,45 +3002,45 @@
        i32.const 8
        i32.const 11
        call $~lib/rt/stub/__alloc
-       local.tee $3
+       local.tee $4
        i32.const 0
        i32.store
-       local.get $3
+       local.get $4
        i32.const 0
        i32.store offset=4
-       local.get $3
-       local.get $0
+       local.get $4
+       local.get $2
        i32.store
-       local.get $3
-       local.get $1
+       local.get $4
+       local.get $5
        i32.store offset=4
-       local.get $7
-       local.get $3
+       local.get $10
+       local.get $4
        call $~lib/array/Array<assembly/index/Point>#push
       end
-      local.get $5
+      local.get $7
       i32.const 1
       i32.sub
-      local.set $5
+      local.set $7
       br $for-loop|1
      end
     end
-    local.get $4
+    local.get $6
     i32.const 1
     i32.sub
-    local.set $4
+    local.set $6
     br $for-loop|0
    end
   end
-  local.get $7
+  local.get $10
  )
  (func $assembly/index/findPath (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32) (result i32)
   (local $5 i32)
   (local $6 i32)
   (local $7 i32)
-  (local $8 f32)
+  (local $8 i32)
   (local $9 f32)
-  (local $10 i32)
+  (local $10 f32)
   (local $11 i32)
   (local $12 i32)
   (local $13 i32)
@@ -3278,13 +3272,13 @@
       f32.load offset=4
       call $~lib/map/Map<f32,~lib/array/Array<assembly/index/Point>>#delete
       f32.const 0
-      local.set $9
+      local.set $10
       i32.const 0
       local.set $1
       local.get $2
       i32.load
       call $~lib/map/Map<f32,~lib/array/Array<assembly/index/Point>>#keys
-      local.tee $11
+      local.tee $8
       i32.load offset=12
       local.set $0
       loop $for-loop|1
@@ -3292,20 +3286,20 @@
        local.get $0
        i32.lt_s
        if
-        local.get $11
+        local.get $8
         i32.load offset=4
         local.get $1
         i32.const 2
         i32.shl
         i32.add
         f32.load
-        local.tee $8
+        local.tee $9
+        local.get $10
         local.get $9
-        local.get $8
-        local.get $9
+        local.get $10
         f32.gt
         select
-        local.set $9
+        local.set $10
         local.get $1
         i32.const 1
         i32.add
@@ -3314,20 +3308,23 @@
        end
       end
       local.get $2
-      local.get $9
+      local.get $10
       f32.store offset=4
      end
      local.get $5
      i32.eqz
      br_if $while-break|0
+     local.get $5
+     i32.load offset=4
+     local.set $8
      local.get $13
      local.get $5
      i32.load
+     local.tee $0
      i32.eq
      if (result i32)
+      local.get $8
       local.get $14
-      local.get $5
-      i32.load offset=4
       i32.eq
      else
       i32.const 0
@@ -3366,22 +3363,22 @@
       local.get $0
       i32.const 1
       i32.sub
-      local.set $1
+      local.set $0
       loop $for-loop|3
-       local.get $1
+       local.get $0
        i32.const 0
        i32.ge_s
        if
         local.get $6
         i32.load offset=4
-        local.get $1
+        local.get $0
         i32.const 2
         i32.shl
         i32.add
         i32.load
         local.tee $2
         i32.load offset=4
-        local.set $0
+        local.set $1
         local.get $12
         local.get $3
         i32.load offset=4
@@ -3395,16 +3392,16 @@
         i32.const 1
         i32.add
         i32.add
-        local.get $0
+        local.get $1
         i32.store8
         local.get $12
         i32.const 2
         i32.add
         local.set $12
-        local.get $1
+        local.get $0
         i32.const 1
         i32.sub
-        local.set $1
+        local.set $0
         br $for-loop|3
        end
       end
@@ -3412,22 +3409,23 @@
       return
      end
      i32.const 0
-     local.set $10
-     local.get $5
+     local.set $11
+     local.get $0
+     local.get $8
      local.get $4
      local.get $6
      call $assembly/index/neighbors
-     local.tee $11
+     local.tee $8
      i32.load offset=12
      local.set $1
      loop $for-loop|4
-      local.get $10
+      local.get $11
       local.get $1
       i32.lt_s
       if
-       local.get $11
+       local.get $8
        i32.load offset=4
-       local.get $10
+       local.get $11
        i32.const 2
        i32.shl
        i32.add
@@ -3522,11 +3520,11 @@
         f64.div
         f32.demote_f64
         f32.add
-        local.tee $8
+        local.tee $9
         call $~lib/map/Map<f32,~lib/array/Array<assembly/index/Point>>#has
         if
          local.get $15
-         local.get $8
+         local.get $9
          call $~lib/map/Map<f32,~lib/array/Array<assembly/index/Point>>#get
          local.get $7
          call $~lib/array/Array<assembly/index/Point>#push
@@ -3539,14 +3537,14 @@
          local.get $7
          i32.store
          local.get $15
-         local.get $8
+         local.get $9
          local.get $0
          call $~lib/map/Map<f32,~lib/array/Array<assembly/index/Point>>#set
         end
         local.get $2
         local.get $2
         f32.load offset=4
-        local.get $8
+        local.get $9
         f32.max
         f32.store offset=4
         local.get $4
@@ -3554,10 +3552,10 @@
         local.get $5
         call $~lib/map/Map<assembly/index/Point,assembly/index/Point | null>#set
        end
-       local.get $10
+       local.get $11
        i32.const 1
        i32.add
-       local.set $10
+       local.set $11
        br $for-loop|4
       end
      end
